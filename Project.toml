@@ -1,7 +1,7 @@
 name = "OkMLModels"
 uuid = "8567d2c9-0786-49d4-a67b-7077e6cb99ca"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.1"
+version = "0.2.2"
 
 [deps]
 DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
@@ -11,7 +11,6 @@ MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
 
 [compat]
 DecisionTree = "0.11 - 0.12"
-Documenter = "0.27"
 MLJ = "0.19"
 julia = "1.6"
 
