@@ -1,3 +1,7 @@
+# You have to set PAT and add secrete ACCESS_OKREGISTRY in the repo {{{PKG}}}
+# https://stevenmortimer.com/running-github-actions-sequentially/
+# see also the default template: https://github.com/JuliaCI/PkgTemplates.jl/blob/master/templates/github/workflows/register.yml
+
 name: CI
 on:
   push:
@@ -36,6 +40,7 @@ jobs:
             using Pkg;
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"))
             '
+      # TODO: create a github action for adding OkRegistry
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-runtest@v1
       - uses: julia-actions/julia-processcoverage@v1
@@ -57,7 +62,7 @@ jobs:
             using Pkg;
             Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"))
             '
-      # TODO: Add this piece of code to okatsn/add-okregistry
+      # TODO: create a github action for adding OkRegistry
       - uses: julia-actions/julia-buildpkg@v1
       - uses: julia-actions/julia-docdeploy@v1
         env:

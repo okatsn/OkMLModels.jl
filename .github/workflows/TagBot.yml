@@ -1,16 +1,55 @@
+# Modified from the [Default TagBot template in PkgTemplates](https://github.com/JuliaCI/PkgTemplates.jl/blob/master/templates/github/workflows/TagBot.yml)
+# Trigger TagBot only if
 name: TagBot
+
 on:
-  issue_comment:
-    types:
-      - created
-  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/TagBot.yml'
+  repository_dispatch:
+    types: [trigger-tagbot]
+
+env:
+  custom: |
+    Trying to fix compatibility issue to add OutlierDetection in TWAI_SWC_23a
+    - Remove [compat] section.
+
+    Add CI (yaml files)
+    - TagBot
+    - register
+    - CI
+
+
 jobs:
   TagBot:
-    if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
+    # if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: JuliaRegistries/TagBot@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh: ${{ secrets.DOCUMENTER_KEY }}
-          registry: https://github.com/okatsn/OkRegistry.git
+          changelog: |
+            ## {{ package }} {{ version }}
+            {% if previous_release %}
+            [Diff since {{ previous_release }}]({{ compare_url }})
+            {% endif %}
+            {% if custom %}
+            {{ custom }}
+            {% endif %}
+            {% if issues %}
+            **Closed issues:**
+            {% for issue in issues %}
+            - {{ issue.title }} (#{{ issue.number }})
+            {% endfor %}
+            {% endif %}
+            {% if pulls %}
+            **Merged pull requests:**
+            {% for pull in pulls %}
+            - {{ pull.title }} (#{{ pull.number }}) (@{{ pull.author.username }})
+            {% endfor %}
+            {% endif %}
+
+          registry: okatsn/OkRegistry
