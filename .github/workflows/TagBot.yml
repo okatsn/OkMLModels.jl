@@ -9,17 +9,6 @@ on:
   repository_dispatch:
     types: [trigger-tagbot]
 
-env:
-  custom: |
-    Trying to fix compatibility issue to add OutlierDetection in TWAI_SWC_23a
-    - Remove [compat] section.
-
-    Add CI (yaml files)
-    - TagBot
-    - register
-    - CI
-
-
 jobs:
   TagBot:
     # if: github.event_name == 'workflow_dispatch' || github.actor == 'JuliaTagBot'
@@ -53,4 +42,11 @@ jobs:
             {% endif %}
 
           registry: okatsn/OkRegistry
-          release_notes: $custom
+          custom: |
+            Trying to fix compatibility issue to add OutlierDetection in TWAI_SWC_23a
+            - Remove [compat] section.
+
+            Add CI (yaml files)
+            - TagBot
+            - register
+            - CI
