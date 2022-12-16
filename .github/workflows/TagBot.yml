@@ -53,3 +53,4 @@ jobs:
             {% endif %}
 
           registry: okatsn/OkRegistry
+          release_notes: $custom
