@@ -1,23 +1,27 @@
 name = "OkMLModels"
 uuid = "8567d2c9-0786-49d4-a67b-7077e6cb99ca"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.7"
+version = "0.2.8"
 
 [deps]
 DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 MLJ = "add582a8-e3ab-11e8-2d5e-e98b27df1bc7"
 MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
+OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
 
 [compat]
-DecisionTree = "^0.12"
-Documenter = "^0.27"
-MLJ = "^0.19"
-MLJDecisionTreeInterface = "^0.3"
-julia = "^1.6"
+DecisionTree = "0.12"
+Documenter = "0.27"
+MLJ = "0.18, 0.19.1"
+MLJDecisionTreeInterface = "0.3"
+OkPkgTemplates = "0.3.0"
+julia = "1.6"
 
 [extras]
+CompatHelperLocal = "5224ae11-6099-4aaa-941d-3aab004bd678"
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [targets]
-test = ["Test"]
+test = ["Test", "Documenter", "CompatHelperLocal"]
