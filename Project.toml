@@ -13,7 +13,7 @@ OkPkgTemplates = "38290ba8-8fbe-457b-bf75-0e4980da3840"
 DecisionTree = "0.12"
 MLJ = "0.18, 0.19, 0.20"
 MLJDecisionTreeInterface = "0.3"
-OkPkgTemplates = "0.3.0"
+OkPkgTemplates = "0.4"
 julia = "1.6"
 
 [extras]
