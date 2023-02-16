@@ -2,5 +2,5 @@ module OkMLModels
 using MLJ
 # Write your package code here.
 include("treemodels.jl")
-export fstree, twofstree
+export fstree, twofstree, manytrees
 end

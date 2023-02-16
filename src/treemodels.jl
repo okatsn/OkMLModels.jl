@@ -32,3 +32,11 @@ function twofstree()
 
     return mypipe
 end
+
+"""
+A random forest using `EnsembleModel`
+"""
+function manytrees(;bagging_fraction=0.8; n=100)
+    tree = (@load "DecisionTreeRegressor" pkg = "DecisionTree" verbosity = 0)()
+    model = EnsembleModel(model=tree, acceleration= MLJ.CPUThreads(), bagging_fraction=bagging_fraction)
+end
