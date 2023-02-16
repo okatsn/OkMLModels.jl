@@ -35,7 +35,7 @@ function OkMLModels.train_test_pairs(cv::MovingWindowCV, rows)
 # |                      ^firstwin1 = lastwin0 - 1
 # id0[1]
 
-    lastwin0 = n_obs - train_length - test_length + 1
+    lastwin0 = n_obs - cv.train_length - cv.test_length + 1
     firstwin1 = lastwin0 - 1
 
     if  1 > lastwin0 # is 0 or negative
@@ -47,14 +47,16 @@ function OkMLModels.train_test_pairs(cv::MovingWindowCV, rows)
     (m, r) = divrem(firstwin1, cv.step_size)
     nfold = m + 1
 
-    M = reshape((r+1):firstwin1, :, nfold)
+    # (m, r, nfold, firstwin1) = OkMLModels.train_test_pairs(MWCV, 1:20) # for debug
+
+    M = reshape((r+1):firstwin1, :, m)
     id0 = M[1, :] # indices for the start of the training phase
+    push!(id0, lastwin0)
     id1 = id0 .- 1 .+ cv.train_length # the end of the training phase
     te0 = id1 .+ 1 # the start of the testing phase
     te1 = id1 .+ cv.test_length # the end of the testing phase
     id0[1] = 1 # redefine the beginning of the first training phase
 
-    return map(id0, id1, te0, te1) do (id0, id1, te0, te1)
-        rows[id0:id1], rows[te0:te1]
-    end
+    (id0, id1, te0, te1) # for debug
+    return map((a0, a1, b0, b1) -> (rows[a0:a1], rows[b0:b1]), id0, id1, te0, te1)
 end
