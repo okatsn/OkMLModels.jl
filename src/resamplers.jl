@@ -5,7 +5,7 @@ struct MovingWindowCV <: ResamplingStrategy
 end
 
 
-function OkMLModels.train_test_pairs(cv::MovingWindowCV, rows)
+function train_test_pairs(cv::MovingWindowCV, rows)
     if rows != sort(rows)
         @warn "MovingWindowCV is being applied to `rows` not in sequence. "
     end

@@ -1,7 +1,7 @@
 name = "OkMLModels"
 uuid = "8567d2c9-0786-49d4-a67b-7077e6cb99ca"
 authors = ["okatsn <okatsn@gmail.com> and contributors"]
-version = "0.2.11"
+version = "0.2.12"
 
 [deps]
 DecisionTree = "7806a523-6efd-50cb-b5f6-3fa6f1930dbb"
