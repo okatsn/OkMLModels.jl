@@ -11,7 +11,7 @@ MLJDecisionTreeInterface = "c6f25543-311c-4c74-83dc-3ea6d1015661"
 [compat]
 DecisionTree = "0.12"
 MLJ = "0.18, 0.19, 0.20"
-MLJDecisionTreeInterface = "0.3"
+MLJDecisionTreeInterface = "0.4"
 julia = "1.6"
 
 [extras]
