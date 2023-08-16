@@ -9,4 +9,9 @@ using MLJ
 include("resamplers.jl")
 export MovingWindowCV
 
+using DataFrames
+include("normalizer.jl")
+export Normalizer
+
+
 end
