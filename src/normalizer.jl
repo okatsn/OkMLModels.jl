@@ -1,7 +1,27 @@
+whatndo = "rescales `x` onto the scale of 0 to 1"
 
+"""
+A static transformer that $whatndo.
+
+# Example
+
+```julia
+stand1 = Normalizer() # rescale to 0-1
+mach = machine(stand1)
+fit!(mach)
+
+MLJ.transform(mach, df::DataFrame)
+```
+
+
+See also: `normalize`
+"""
 mutable struct Normalizer <: Static
 end
 
+"""
+`normalize(x)` $whatndo.
+"""
 function normalize(x)
     xmin = minimum(x)
     xmax = maximum(x)
