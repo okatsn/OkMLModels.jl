@@ -14,7 +14,10 @@ on:
 ## - see [Tagbot-setup](https://github.com/JuliaRegistries/TagBot#setup)
 permissions:
   contents: write
-
+# For public repo, this is all you need.
+# For private repo, you have to add `with: token: TAG_BLABLABLA` of created PAT named `TAG_BLABLABLA` for example with permissions:
+# - Read access to actions, deployments, discussions, issues, metadata, pages, and pull requests
+# - Read and Write access to code (that is, contents)
 jobs:
   TagBot:
     if: github.event_name == 'repository_dispatch' # Add this condition if `github.event.client_payload` is applied in the followings  to guarantee client_payload exists. Check also `PLUGIN_TAGBOT()` and register.yml

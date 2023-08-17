@@ -39,7 +39,8 @@ jobs:
     steps:
       - uses: julia-actions/setup-julia@v1
         with:
-          version: 1.6.7
+          version: 1.8.5
+      - uses: okatsn/add-registry@v2
       - uses: actions/checkout@v3 # see https://github.com/actions/checkout
         with:
           path: TEMP
@@ -52,6 +53,7 @@ jobs:
     # 1. Current path is critical. Please refer to "add_local_pkg_to_registry.jl" in OkRegistry.
     # 2. `git config` is required, and has to be done in repo OkRegistry (cd OkRegistry must precede)
     # 3. Personal registry is add per julia install; that is, OkRegistry should be added before `Pkg.instantiate()`
+    # 4. The empty General registry issue is solved after okatsn/add-registry@v2.0.1; the following code runs only when okatsn/add-registry@v2.0.1 (or later) is applied
       - run: |
           cd OkRegistry
           git config --local user.email "action@github.com"
@@ -59,37 +61,15 @@ jobs:
           julia --project=@. -e '
             using Pkg;
             Pkg.instantiate();
-            Pkg.Registry.add(RegistrySpec(url = "https://github.com/okatsn/OkRegistry.git"));
-            include("add_local_pkg_to_registry.jl");
+            using OkRegistrator;
+            okciregister()
             '
-          echo "text=$(julia --project=@. -e '
-            using Pkg;
-            Pkg.add([Pkg.PackageSpec(;name="OkExpressions", version="0.1.5"), Pkg.PackageSpec(;name="OkMD", version="0.2.2")]);
-            using OkMD, OkExpressions;
-            cglog = try;
-              OkMD.plain_string(OkMD.get_changelog("../TEMP/Project.toml", "../TEMP/changelog.md", 2; with_header=false));
-            catch e;
-              "changelog.md not available";
-            end;
-            print_raw(cglog);
-          ')"  >> $GITHUB_OUTPUT
-          echo "version=$(julia --project=@. -e '
-            using Pkg;
-            Pkg.add("TOML");
-            using TOML;
-            ver = try;
-              d = TOML.parsefile("../TEMP/Project.toml");
-              d["version"];
-            catch e;
-              "Version number not available";
-            end;
-            print(ver);
-          ')" >> $GITHUB_OUTPUT
+          cd ..
+      - uses: okatsn/get-changelog@v1
+        with:
+          dir0: TEMP
         id: regist
     # KEYNOTE:
-    # - If you echo variable of the same name to GITHUB_OUTPUT, the former will be overwrite by the latter. To preserve all, the variable name (e.g., `text` in echo "text=$line") must be different. See https://stackoverflow.com/questions/74137120/how-to-fix-or-avoid-error-unable-to-process-file-command-output-successfully
-    # - For GITHUB_OUTPUT, see: https://stackoverflow.com/questions/59191913/how-do-i-get-the-output-of-a-specific-step-in-github-actions and https://docs.github.com/en/actions/using-jobs/defining-outputs-for-jobs
-    # - For multi-line output, see https://trstringer.com/github-actions-multiline-strings/
     # - Declare dynamic variables (not used in this script) https://dev.to/a1ex/tricks-of-declaring-dynamic-variables-in-bash-15b9
     # - How to override an environment variable in Github Actions? https://stackoverflow.com/questions/66687561/how-to-override-an-environment-variable-in-github-actions
 
@@ -98,7 +78,7 @@ jobs:
         # && github.event_name == 'push' # KEYNOTE: must have this condition if `github.event.commits` is used in the followings. `github.event.commits` is only available in [push webhook payload](https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#push).
         # if: success() # Use this condition instead if `github.event.commits` is not applied herein after AND you want trigger-tagbot dispatch workflows `on` events other that `push`.
         env:
-          CHANGELOG_MESSAGE: ${{ join(steps.regist.outputs.*, '\n') }}
+          CHANGELOG_MESSAGE: ${{ steps.regist.outputs.content }}
           JULIA_VERSION: ${{ steps.regist.outputs.version }}
         uses: peter-evans/repository-dispatch@v2 # See https://github.com/peter-evans/repository-dispatch
         with:
