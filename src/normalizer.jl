@@ -28,7 +28,7 @@ end
 """
 `normalize(x)` $whatndo.
 """
-function normalize(x::Vector)
+function normalize(x::AbstractArray)
     xmin = minimum(x)
     xmax = maximum(x)
     return normalize.(x, xmin, xmax)
