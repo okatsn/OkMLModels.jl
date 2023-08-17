@@ -1,5 +1,16 @@
 using DataFrames, MLJ
 @testset "normalizer.jl" begin
+    # test OkMLModels.normalize
+    for i = 1:10
+        let
+            xmin, xmax = extrema(5 * randn(2) .+ 10)
+            ratio = rand(0.1:0.1:0.9, 1) |> only
+            v = xmin + ratio * (xmax - xmin)
+            v0 = OkMLModels.normalize(v, xmin, xmax)
+            @test isapprox(v0 - 0.0, ratio)
+        end
+    end
+
     x1 = randn(1000)
     x2 = 3 * randn(1000)
     x3 = -2 * randn(1000) .- 5

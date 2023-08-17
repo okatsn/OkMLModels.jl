@@ -19,14 +19,19 @@ See also: `normalize`
 mutable struct Normalizer <: Static
 end
 
+function normalize(v, xmin, xmax)
+    return (v - xmin) / (xmax - xmin)
+    # see https://www.codingninjas.com/studio/library/normalisation-vs-standardisation
+end
+
+
 """
 `normalize(x)` $whatndo.
 """
-function normalize(x)
+function normalize(x::Vector)
     xmin = minimum(x)
     xmax = maximum(x)
-    return (x .- xmin) ./ (xmax - xmin)
-    # see https://www.codingninjas.com/studio/library/normalisation-vs-standardisation
+    return normalize.(x, xmin, xmax)
 end
 
 # https://alan-turing-institute.github.io/MLJ.jl/stable/transformers/#Static-transformers

@@ -18,3 +18,6 @@ Fix the bug of new/old world. Previously calling functions that returns a model 
 ## v0.3.0
 - Remove all tree models; they now lives in [SWCForecastBase.jl](https://github.com/okatsn/SWCForecastBase.jl).
 - New resampler `MovingWindowCV` and corresponding `train_test_pairs` methods for MLJ.
+
+## v0.4.1
+- New static transformer `Normalizer` and its underlying functions `normalize`.
